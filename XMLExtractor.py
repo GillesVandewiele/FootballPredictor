@@ -3,8 +3,6 @@ from datetime import datetime
 from lxml import etree
 import pandas as pd
 
-import FeatureExtractor
-
 
 def files_to_odds(file_paths):
     df = None
@@ -58,19 +56,26 @@ def get_matches_info(tree, df):
             new_record['home_red'] = match.find('HomeRedCards').text
             new_record['home_formation'] = match.find('HomeTeamFormation').text if match.find(
                 'HomeTeamFormation') is not None else None
+
             new_record['home_gk'] = [word.lstrip() for word in match.find('HomeLineupGoalkeeper').text.split(';')] \
                 if match.find('HomeLineupGoalkeeper') is not None and match.find('HomeLineupGoalkeeper').text is not \
                                                                       None else None
+
             new_record['home_def'] = [word.lstrip() for word in match.find('HomeLineupDefense').text.split(';')] \
                 if match.find('HomeLineupDefense') is not None and match.find('HomeLineupDefense').text is not \
                                                                       None else None
-            
+            if new_record['home_def'] and new_record['home_def'][-1] == '': del new_record['home_def'][-1]
+
             new_record['home_mid'] = [word.lstrip() for word in match.find('HomeLineupMidfield').text.split(';')] \
                 if match.find('HomeLineupMidfield') is not None and match.find('HomeLineupMidfield').text is not \
                                                                       None else None
+            if new_record['home_mid'] and new_record['home_mid'][-1] == '': del new_record['home_mid'][-1]
+
             new_record['home_atk'] = [word.lstrip() for word in match.find('HomeLineupForward').text.split(';')] \
                 if match.find('HomeLineupForward') is not None and match.find('HomeLineupForward').text is not \
                                                                       None else None
+            if new_record['home_atk'] and new_record['home_atk'][-1] == '': del new_record['home_atk'][-1]
+
             new_record['home_FT_goals'] = match.find('HomeGoals').text
             new_record['home_FT_goals'] = match.find('HalfTimeHomeGoals').text
 
@@ -90,13 +95,18 @@ def get_matches_info(tree, df):
             new_record['away_def'] = [word.lstrip() for word in match.find('AwayLineupDefense').text.split(';')] \
                 if match.find('AwayLineupDefense') is not None and match.find('AwayLineupDefense').text is not \
                                                                       None else None
-            
+            if new_record['away_def'] and new_record['away_def'][-1] == '': del new_record['away_def'][-1]
+
             new_record['away_mid'] = [word.lstrip() for word in match.find('AwayLineupMidfield').text.split(';')] \
                 if match.find('AwayLineupMidfield') is not None and match.find('AwayLineupMidfield').text is not \
                                                                       None else None
+            if new_record['away_mid'] and new_record['away_mid'][-1] == '': del new_record['away_mid'][-1]
+
             new_record['away_atk'] = [word.lstrip() for word in match.find('AwayLineupForward').text.split(';')] \
                 if match.find('AwayLineupForward') is not None and match.find('AwayLineupForward').text is not \
                                                                       None else None
+            if new_record['away_atk'] and new_record['away_atk'][-1] == '': del new_record['away_atk'][-1]
+
             new_record['away_FT_goals'] = match.find('AwayGoals').text
             new_record['away_FT_goals'] = match.find('HalfTimeAwayGoals').text
 
@@ -116,10 +126,8 @@ odds_df = files_to_odds(['FootballData/scotland1112_odds.csv', 'FootballData/sco
 
 joined_df = pd.merge(df, odds_df, how='left', on=['date', 'home_team', 'away_team'])
 
-print(joined_df.head(10))
-print(joined_df.tail(10))
+print('Dataframe ready... Print null value counts')
+print(joined_df.isnull().sum())
+print('--------------------------------------')
 
-
-last_game = df.iloc[len(df) - 1, :]
-print(FeatureExtractor.get_prior_game_statistics(last_game['home_team'], last_game['away_team'],
-                                                 last_game['date'], df))
+joined_df.to_csv('features_dirty.csv')
