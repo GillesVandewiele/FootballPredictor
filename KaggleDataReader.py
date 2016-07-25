@@ -183,5 +183,5 @@ for i in range(len(england_matches)):
     feature_entries.append(feature_entry)
 
 feature_df = pd.DataFrame(feature_entries)
-feature_df.to_csv('kaggle_features_v2.csv')
-result_df.to_csv('kaggle_labels_v2.csv')
+# feature_df.to_csv('kaggle_features_v2.csv')
+# result_df.to_csv('kaggle_labels_v2.csv')

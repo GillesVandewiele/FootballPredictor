@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a6f06ec-54d7-4e93-bb95-a5ff3042719d" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kaggle_labels_v2.csv" afterPath="$PROJECT_DIR$/kaggle_labels_v1.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/KaggleDataReader.py" afterPath="$PROJECT_DIR$/KaggleDataReader.py" />
     </list>
     <ignored path="FootballPredictor.iws" />
@@ -19,11 +17,12 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/FootballPredictor$gouden_elf_ek.coverage" NAME="gouden_elf_ek Coverage Results" MODIFIED="1465416729070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FootballPredictor$KaggleDataReader.coverage" NAME="KaggleDataReader Coverage Results" MODIFIED="1469446790211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FootballPredictor$KaggleDataReader.coverage" NAME="KaggleDataReader Coverage Results" MODIFIED="1469448671232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FootballPredictor$geocoding.coverage" NAME="geocoding Coverage Results" MODIFIED="1467964562511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/Pharma Demo" />
     <SUITE FILE_PATH="coverage/FootballPredictor$XMLExtractor.coverage" NAME="XMLExtractor Coverage Results" MODIFIED="1467974563345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FootballPredictor$get_mails.coverage" NAME="get_mails Coverage Results" MODIFIED="1466081857596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FootballPredictor$FeatureExtractor.coverage" NAME="FeatureExtractor Coverage Results" MODIFIED="1467980130013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FootballPredictor$FootballPredictor.coverage" NAME="FootballPredictor Coverage Results" MODIFIED="1469450855486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -34,23 +33,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="KaggleDataReader.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="KaggleDataReader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/KaggleDataReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4359756">
-              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="58" column="29" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="29" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <marker date="1469446790202" expanded="true" signature="720:740" placeholder="SELECT * FRO... League" />
-                <marker date="1469446790202" expanded="true" signature="779:797" placeholder="SELECT * FRO... Team" />
-                <marker date="1469446790202" expanded="true" signature="843:869" placeholder="SELECT * FRO... Player_Stats" />
-                <marker date="1469446790202" expanded="true" signature="910:924" placeholder="SELECT * FRO... Player_Stats" />
-                <marker date="1469446790202" expanded="true" signature="910:930" placeholder="SELECT * FRO... Player" />
-                <marker date="1469446790202" expanded="true" signature="971:985" placeholder="SELECT * FRO... Player" />
-                <marker date="1469446790202" expanded="true" signature="971:990" placeholder="SELECT * FRO... Match" />
-                <marker date="1469446790202" expanded="true" signature="1040:1077" placeholder="SELECT * FRO... Match" />
-                <marker date="1469446790202" expanded="true" signature="1126:1166" placeholder="SELECT * FRO... Match" />
+                <marker date="1469448684070" expanded="true" signature="720:740" placeholder="SELECT * FRO... League" />
+                <marker date="1469448684070" expanded="true" signature="779:797" placeholder="SELECT * FRO... Team" />
+                <marker date="1469448684070" expanded="true" signature="843:869" placeholder="SELECT * FRO... Player_Stats" />
+                <marker date="1469448684070" expanded="true" signature="910:924" placeholder="SELECT * FRO... Player_Stats" />
+                <marker date="1469448684070" expanded="true" signature="910:930" placeholder="SELECT * FRO... Player" />
+                <marker date="1469448684070" expanded="true" signature="971:985" placeholder="SELECT * FRO... Player" />
+                <marker date="1469448684070" expanded="true" signature="971:990" placeholder="SELECT * FRO... Match" />
+                <marker date="1469448684070" expanded="true" signature="1040:1077" placeholder="SELECT * FRO... Match" />
+                <marker date="1469448684070" expanded="true" signature="1126:1166" placeholder="SELECT * FRO... Match" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FootballPredictor.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FootballPredictor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3597561">
+              <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="kaggle_features_v2.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kaggle_features_v2.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1890.2947">
+              <caret line="364" column="441" selection-start-line="364" selection-start-column="438" selection-end-line="364" selection-end-column="441" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Football_Predictor_Old.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Football_Predictor_Old.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-22.694445">
+              <caret line="548" column="19" selection-start-line="548" selection-start-column="16" selection-end-line="548" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,6 +111,7 @@
         <option value="$PROJECT_DIR$/not_found_players.csv" />
         <option value="$PROJECT_DIR$/FeatureExtractor.py" />
         <option value="$PROJECT_DIR$/KaggleDataReader.py" />
+        <option value="$PROJECT_DIR$/FootballPredictor.py" />
       </list>
     </option>
   </component>
@@ -154,7 +186,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.KaggleDataReader">
+  <component name="RunManager" selected="Python.FootballPredictor">
     <configuration default="false" name="XMLExtractor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -169,24 +201,6 @@
       <module name="FootballPredictor" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/XMLExtractor.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="get_mails" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="FootballPredictor" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/get_mails.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -241,6 +255,24 @@
       <module name="FootballPredictor" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/KaggleDataReader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="FootballPredictor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="FootballPredictor" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FootballPredictor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -440,18 +472,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.XMLExtractor" />
-      <item index="1" class="java.lang.String" itemvalue="Python.get_mails" />
-      <item index="2" class="java.lang.String" itemvalue="Python.geocoding" />
-      <item index="3" class="java.lang.String" itemvalue="Python.FeatureExtractor" />
-      <item index="4" class="java.lang.String" itemvalue="Python.KaggleDataReader" />
+      <item index="1" class="java.lang.String" itemvalue="Python.geocoding" />
+      <item index="2" class="java.lang.String" itemvalue="Python.FeatureExtractor" />
+      <item index="3" class="java.lang.String" itemvalue="Python.KaggleDataReader" />
+      <item index="4" class="java.lang.String" itemvalue="Python.FootballPredictor" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.KaggleDataReader" />
-        <item index="1" class="java.lang.String" itemvalue="Python.FeatureExtractor" />
-        <item index="2" class="java.lang.String" itemvalue="Python.XMLExtractor" />
-        <item index="3" class="java.lang.String" itemvalue="Python.geocoding" />
-        <item index="4" class="java.lang.String" itemvalue="Python.get_mails" />
+        <item index="0" class="java.lang.String" itemvalue="Python.FootballPredictor" />
+        <item index="1" class="java.lang.String" itemvalue="Python.KaggleDataReader" />
+        <item index="2" class="java.lang.String" itemvalue="Python.FeatureExtractor" />
+        <item index="3" class="java.lang.String" itemvalue="Python.XMLExtractor" />
+        <item index="4" class="java.lang.String" itemvalue="Python.geocoding" />
       </list>
     </recent_temporary>
   </component>
@@ -699,13 +731,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Football_Predictor_Old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.3824453">
-          <caret line="314" column="0" selection-start-line="314" selection-start-column="0" selection-end-line="314" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/Pharma Demo/data/data_insurance_geocoords.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3115727">
@@ -784,21 +809,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Football_Predictor_Old.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.694445">
+          <caret line="548" column="19" selection-start-line="548" selection-start-column="16" selection-end-line="548" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaggle_features_v2.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1890.2947">
+          <caret line="364" column="441" selection-start-line="364" selection-start-column="438" selection-end-line="364" selection-end-column="441" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/KaggleDataReader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4359756">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="58" column="29" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="29" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <marker date="1469446790202" expanded="true" signature="720:740" placeholder="SELECT * FRO... League" />
-            <marker date="1469446790202" expanded="true" signature="779:797" placeholder="SELECT * FRO... Team" />
-            <marker date="1469446790202" expanded="true" signature="843:869" placeholder="SELECT * FRO... Player_Stats" />
-            <marker date="1469446790202" expanded="true" signature="910:924" placeholder="SELECT * FRO... Player_Stats" />
-            <marker date="1469446790202" expanded="true" signature="910:930" placeholder="SELECT * FRO... Player" />
-            <marker date="1469446790202" expanded="true" signature="971:985" placeholder="SELECT * FRO... Player" />
-            <marker date="1469446790202" expanded="true" signature="971:990" placeholder="SELECT * FRO... Match" />
-            <marker date="1469446790202" expanded="true" signature="1040:1077" placeholder="SELECT * FRO... Match" />
-            <marker date="1469446790202" expanded="true" signature="1126:1166" placeholder="SELECT * FRO... Match" />
+            <marker date="1469448684070" expanded="true" signature="720:740" placeholder="SELECT * FRO... League" />
+            <marker date="1469448684070" expanded="true" signature="779:797" placeholder="SELECT * FRO... Team" />
+            <marker date="1469448684070" expanded="true" signature="843:869" placeholder="SELECT * FRO... Player_Stats" />
+            <marker date="1469448684070" expanded="true" signature="910:924" placeholder="SELECT * FRO... Player_Stats" />
+            <marker date="1469448684070" expanded="true" signature="910:930" placeholder="SELECT * FRO... Player" />
+            <marker date="1469448684070" expanded="true" signature="971:985" placeholder="SELECT * FRO... Player" />
+            <marker date="1469448684070" expanded="true" signature="971:990" placeholder="SELECT * FRO... Match" />
+            <marker date="1469448684070" expanded="true" signature="1040:1077" placeholder="SELECT * FRO... Match" />
+            <marker date="1469448684070" expanded="true" signature="1126:1166" placeholder="SELECT * FRO... Match" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FootballPredictor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3597561">
+          <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
