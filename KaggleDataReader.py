@@ -2,6 +2,7 @@ from datetime import datetime
 
 import pandas as pd
 import sqlalchemy
+import sys
 from sqlalchemy import create_engine  # database connection
 import numpy as np
 
@@ -70,7 +71,7 @@ def get_historical_data(_home_team, _away_team, date, _result_df, n_games=5):
     # Get points obtained in n_games latest (home/away/all) games
     # Get the points obtained by the home and away team in the n_games latest mutual games
     home_home_games = _result_df[(_result_df.home_team == _home_team) & (_result_df.date < date)] \
-        .sort_values(by='date').tail(n_games)
+        .sort_values(by='date').tail(n_games) # Sort_values is default ascending
     home_home_goals_scored = sum(home_home_games['home_team_goal'])
     home_home_goals_conceded = sum(home_home_games['away_team_goal'])
     home_home_points = sum(home_home_games['result'] == 'HOME') * 3 + sum(home_home_games['result'] == 'DRAW')
@@ -157,7 +158,7 @@ for i in range(len(england_matches)):
         feature_entry['away_player_Y' + str(k)] = record['away_player_Y' + str(k)]
 
         player_all_stats_home = player_stats[player_stats.player_api_id == record['home_player_' + str(k)]]
-        min = 99999999999999
+        min = sys.maxsize
         closest_stat_record = None
         for j in range(len(player_all_stats_home)):
             stat_record = player_all_stats_home.iloc[j, :]
@@ -169,7 +170,7 @@ for i in range(len(england_matches)):
             feature_entry[stat_feature_col + '_home_' + str(k)] = stat_record[stat_feature_col]
 
         player_all_stats_away = player_stats[player_stats.player_api_id == record['away_player_' + str(k)]]
-        min = 99999999999999
+        min = sys.maxsize
         closest_stat_record = None
         for j in range(len(player_all_stats_away)):
             stat_record = player_all_stats_away.iloc[j, :]
