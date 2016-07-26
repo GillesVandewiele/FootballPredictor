@@ -73,7 +73,7 @@ def RF_feature_selection(features, labels, n_features):
 
     return [features.columns[x] for x in feature_importance[:n_features]]
 
-def boruta_py_feature_selection(features, labels, column_names, verbose=False, percentile=90, alpha=0.05):
+def boruta_py_feature_selection(features, labels, column_names, verbose=False, percentile=85, alpha=0.05):
     """
     :param alpha:
     :param percentile:
@@ -84,7 +84,7 @@ def boruta_py_feature_selection(features, labels, column_names, verbose=False, p
     :return: vector containing the indices of the most important features (as column number)
     """
     rf = RandomForestClassifier(n_jobs=-1, class_weight='auto')
-    feat_selector = BorutaPy(rf, n_estimators='auto', perc=percentile, alpha=alpha, verbose=0)
+    feat_selector = BorutaPy(rf, n_estimators='auto', perc=percentile, alpha=alpha, verbose=1)
     feat_selector.fit(features, labels)
     if verbose:
         print("\n\n\n\n")
@@ -107,19 +107,19 @@ def boruta_py_feature_selection(features, labels, column_names, verbose=False, p
             important_features.append(i)
     return important_features
 
-features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).values,
-                                       train_labels_df['result'].tolist(),
-                                       train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).columns,
-                                       verbose=True)
-# features = RF_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
-#                                 train_labels_df['result'], 400)
+# features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).values,
+#                                        train_labels_df['result'].tolist(),
+#                                        train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).columns,
+#                                        verbose=True)
+features = RF_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
+                                train_labels_df['result'], 30)
 
 # clf = SVC(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=True, tol=0.001,
 #           cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)
-clf = RandomForestClassifier(n_estimators=2500, n_jobs=-1)
+clf = RandomForestClassifier(n_estimators=1250, n_jobs=-1)
 clf.fit(train_features_df[features], train_labels_df['result'])
 
-betting_thresh = 1.4
+betting_thresh = 1.5
 correct = 0
 total_bets = 0
 balance = 0
