@@ -4,10 +4,19 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 
 from boruta_py import BorutaPy
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+LIGHT_PURPLE = '\033[94m'
+PURPLE = '\033[95m'
+END = '\033[0m'
+
+def print_color(text, colorcode):
+    print (colorcode+" {}\033[00m" .format(text))
 
 features_df = pd.read_csv('kaggle_features_v2.csv')
 labels_df = pd.read_csv('kaggle_labels_v2.csv')
-
+features_df = features_df.drop('Unnamed: 0', 1)
 labels_df = labels_df.replace('HOME', 0)
 labels_df = labels_df.replace('DRAW', 1)
 labels_df = labels_df.replace('AWAY', 2)
@@ -64,7 +73,7 @@ def RF_feature_selection(features, labels, n_features):
 
     return [features.columns[x] for x in feature_importance[:n_features]]
 
-def boruta_py_feature_selection(features, labels, column_names, verbose=False, percentile=100, alpha=0.05):
+def boruta_py_feature_selection(features, labels, column_names, verbose=False, percentile=90, alpha=0.05):
     """
     :param alpha:
     :param percentile:
@@ -107,10 +116,10 @@ features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).dr
 
 # clf = SVC(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=True, tol=0.001,
 #           cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)
-clf = RandomForestClassifier(n_estimators=1000, n_jobs=-1)
+clf = RandomForestClassifier(n_estimators=2500, n_jobs=-1)
 clf.fit(train_features_df[features], train_labels_df['result'])
 
-betting_thresh = 1.5
+betting_thresh = 1.4
 correct = 0
 total_bets = 0
 balance = 0
@@ -134,31 +143,31 @@ for i in range(len(test_labels_df)):
         balance -= 1
         total_bets += 1
         if label_record['result'] == 0:
-            print('Won', label_record['B365H'], 'euros')
+            print_color('Won '+ str(label_record['B365H'])+ ' euros', GREEN)
             balance += label_record['B365H']
         else:
-            print('Lost it')
+            print_color('Lost it', RED)
 
     if draw_rating >= betting_thresh:
         print('Betting 1 euro on draw...')
         balance -= 1
         total_bets += 1
         if label_record['result'] == 1:
-            print('Won', label_record['B365D'], 'euros')
+            print_color('Won '+ str(label_record['B365D'])+ ' euros', GREEN)
             balance += label_record['B365D']
         else:
-            print('Lost it')
+            print_color('Lost it', RED)
 
     if away_rating >= betting_thresh:
         print('Betting 1 euro on away...')
         balance -= 1
         total_bets += 1
         if label_record['result'] == 2:
-            print('Won', label_record['B365A'], 'euros')
+            print_color('Won ' + str(label_record['B365A']) + ' euros', GREEN)
             balance += label_record['B365A']
         else:
-            print('Lost it')
-
+            print_color('Lost it', RED)
+    print_color('Balance: '+str(balance), PURPLE)
     print('-------------------------------------------------------------------------------')
 print(correct, '/', len(test_labels_df), '=', correct/len(test_labels_df))
 print('BETTED:', total_bets, '-- PROFIT:', balance)
