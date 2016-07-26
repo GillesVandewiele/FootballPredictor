@@ -112,14 +112,14 @@ def boruta_py_feature_selection(features, labels, column_names, verbose=False, p
 #                                        train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).columns,
 #                                        verbose=True)
 features = RF_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
-                                train_labels_df['result'], 30)
+                                train_labels_df['result'], 200)
 
 # clf = SVC(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=True, tol=0.001,
 #           cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)
-clf = RandomForestClassifier(n_estimators=1250, n_jobs=-1)
+clf = RandomForestClassifier(n_estimators=750, n_jobs=-1)
 clf.fit(train_features_df[features], train_labels_df['result'])
 
-betting_thresh = 1.5
+betting_thresh = 1.9
 correct = 0
 total_bets = 0
 balance = 0
@@ -127,9 +127,10 @@ for i in range(len(test_labels_df)):
     feature_record = test_features_df.iloc[i, :]
     label_record = test_labels_df.iloc[i, :]
     predictions = clf.predict_proba(feature_record[features].reshape(1, -1))
-    home_rating = predictions[0][0] * label_record['B365H']
-    draw_rating = predictions[0][1] * label_record['B365D']
-    away_rating = predictions[0][2] * label_record['B365A']
+    # Risk / Profit rating: sqrt(prediction) because prediction is more important indicator than ratings (if you bet on something with a very high rating, but with a very small probability of winning, you probably will loose money)
+    home_rating = predictions[0][0]  * label_record['B365H'] ** 2
+    draw_rating = predictions[0][1]  * label_record['B365D'] ** 2
+    away_rating = predictions[0][2]  * label_record['B365A'] ** 2
 
     print('[', feature_record['date'], ']', feature_record['home_team'], 'vs.', feature_record['away_team'], 'RESULT:',
           label_record['home_team_goal'], '-', label_record['away_team_goal'])
