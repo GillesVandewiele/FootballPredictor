@@ -64,7 +64,7 @@ def RF_feature_selection(features, labels, n_features):
 
     return [features.columns[x] for x in feature_importance[:n_features]]
 
-def boruta_py_feature_selection(features, labels, verbose=False, percentile=100, alpha=0.05):
+def boruta_py_feature_selection(features, labels, column_names, verbose=False, percentile=100, alpha=0.05):
     """
     :param alpha:
     :param percentile:
@@ -74,7 +74,6 @@ def boruta_py_feature_selection(features, labels, verbose=False, percentile=100,
     :param verbose:Whether to print info about the feature importance or not
     :return: vector containing the indices of the most important features (as column number)
     """
-    column_names = features.columns
     rf = RandomForestClassifier(n_jobs=-1, class_weight='auto')
     feat_selector = BorutaPy(rf, n_estimators='auto', perc=percentile, alpha=alpha, verbose=0)
     feat_selector.fit(features, labels)
@@ -99,8 +98,10 @@ def boruta_py_feature_selection(features, labels, verbose=False, percentile=100,
             important_features.append(i)
     return important_features
 
-features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
-                                       train_labels_df['result'], verbose=True)
+features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).values,
+                                       train_labels_df['result'].tolist(),
+                                       train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).columns,
+                                       verbose=True)
 # features = RF_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
 #                                 train_labels_df['result'], 400)
 
@@ -109,7 +110,7 @@ features = boruta_py_feature_selection(train_features_df.drop('home_team', 1).dr
 clf = RandomForestClassifier(n_estimators=1000, n_jobs=-1)
 clf.fit(train_features_df[features], train_labels_df['result'])
 
-betting_thresh = 1.25
+betting_thresh = 1.5
 correct = 0
 total_bets = 0
 balance = 0
@@ -121,7 +122,7 @@ for i in range(len(test_labels_df)):
     draw_rating = predictions[0][1] * label_record['B365D']
     away_rating = predictions[0][2] * label_record['B365A']
 
-    print(feature_record['home_team'], 'vs.', feature_record['away_team'], 'RESULT:',
+    print('[', feature_record['date'], ']', feature_record['home_team'], 'vs.', feature_record['away_team'], 'RESULT:',
           label_record['home_team_goal'], '-', label_record['away_team_goal'])
     print('PREDICTIONS: ', predictions)
     print('RATING PRODUCTS:', [home_rating, draw_rating, away_rating])
