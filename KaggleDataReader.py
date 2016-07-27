@@ -34,13 +34,14 @@ england_matches = pd.read_sql_query('SELECT * FROM Match WHERE league_id=1729;',
 
 result_entries = []
 feature_entries = []
-player_stats_feature_cols = 'overall_rating', 'potential', 'preferred_foot', 'attacking_work_rate', \
-                            'defensive_work_rate', 'crossing', 'finishing', 'heading_accuracy', 'short_passing', \
-                            'volleys', 'dribbling', 'curve', 'free_kick_accuracy', 'long_passing', 'ball_control', \
-                            'acceleration', 'sprint_speed', 'agility', 'reactions', 'balance', 'shot_power', 'jumping', \
-                            'stamina', 'strength', 'long_shots', 'aggression', 'interceptions', 'positioning', 'vision', \
-                            'penalties', 'marking', 'standing_tackle', 'sliding_tackle', 'gk_diving', 'gk_handling', \
-                            'gk_kicking', 'gk_positioning', 'gk_reflexes'
+# player_stats_feature_cols = 'overall_rating', 'potential', 'preferred_foot', 'attacking_work_rate', \
+#                             'defensive_work_rate', 'crossing', 'finishing', 'heading_accuracy', 'short_passing', \
+#                             'volleys', 'dribbling', 'curve', 'free_kick_accuracy', 'long_passing', 'ball_control', \
+#                             'acceleration', 'sprint_speed', 'agility', 'reactions', 'balance', 'shot_power', 'jumping', \
+#                             'stamina', 'strength', 'long_shots', 'aggression', 'interceptions', 'positioning', 'vision', \
+#                             'penalties', 'marking', 'standing_tackle', 'sliding_tackle', 'gk_diving', 'gk_handling', \
+#                             'gk_kicking', 'gk_positioning', 'gk_reflexes'
+player_stats_feature_cols = 'overall_rating', 'potential'
 
 # Creating a result dataframe
 for i in range(len(england_matches)):
@@ -98,12 +99,22 @@ def get_historical_data(_home_team, _away_team, date, _result_df, n_games=5):
 
     same_mutual_games = _result_df[(_result_df.home_team == _home_team) & (_result_df.away_team == _away_team) &
                                    (_result_df.date < date)].sort_values(by='date').tail(n_games)
-    home_mutual_points = sum(same_mutual_games['result'] == 'HOME') * 3 + sum(same_mutual_games['result'] == 'DRAW')
-    home_mutual_goals_scored = sum(same_mutual_games['home_team_goal'])
-    home_mutual_goals_conceded = sum(same_mutual_games['away_team_goal'])
-    away_mutual_points = sum(same_mutual_games['result'] == 'AWAY') * 3 + sum(same_mutual_games['result'] == 'DRAW')
+    home_same_mutual_points = sum(same_mutual_games['result'] == 'HOME') * 3 + sum(same_mutual_games['result'] == 'DRAW')
+    home_same_mutual_goals_scored = sum(same_mutual_games['home_team_goal'])
+    home_same_mutual_goals_conceded = sum(same_mutual_games['away_team_goal'])
+    away_same_mutual_points = sum(same_mutual_games['result'] == 'AWAY') * 3 + sum(same_mutual_games['result'] == 'DRAW')
+
+    different_mutual_games = _result_df[(_result_df.home_team == _away_team) & (_result_df.away_team == _home_team) &
+                                   (_result_df.date < date)].sort_values(by='date').tail(n_games)
+    home_mutual_points = sum(different_mutual_games['result'] == 'AWAY') * 3 + sum(different_mutual_games['result'] == 'DRAW') \
+                         + home_same_mutual_points
+    home_mutual_goals_scored = sum(different_mutual_games['away_team_goal']) + home_same_mutual_goals_scored
+    home_mutual_goals_conceded = sum(different_mutual_games['home_team_goal']) + home_same_mutual_goals_conceded
+    away_mutual_points = sum(different_mutual_games['result'] == 'HOME') * 3 + sum(different_mutual_games['result'] == 'DRAW') \
+                         + away_same_mutual_points
     away_mutual_goals_scored = home_mutual_goals_conceded
     away_mutual_goals_conceded = home_mutual_goals_scored
+
 
     return home_home_goals_scored, home_home_goals_conceded, home_all_goals_scored, home_all_goals_conceded, \
            home_home_points, home_all_points, away_away_goals_scored, away_away_goals_conceded, \
@@ -184,5 +195,5 @@ for i in range(len(england_matches)):
     feature_entries.append(feature_entry)
 
 feature_df = pd.DataFrame(feature_entries)
-# feature_df.to_csv('kaggle_features_v2.csv')
-# result_df.to_csv('kaggle_labels_v2.csv')
+feature_df.to_csv('kaggle_features_v3.csv')
+result_df.to_csv('kaggle_labels_v3.csv')

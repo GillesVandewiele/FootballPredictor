@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 
 from boruta_py import BorutaPy
@@ -112,25 +113,60 @@ def boruta_py_feature_selection(features, labels, column_names, verbose=False, p
 #                                        train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1).columns,
 #                                        verbose=True)
 features = RF_feature_selection(train_features_df.drop('home_team', 1).drop('away_team', 1).drop('date', 1),
-                                train_labels_df['result'], 200)
+                                train_labels_df['result'], 500)
 
-# clf = SVC(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=True, tol=0.001,
-#           cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)
+svm = SVC(C=0.5, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=True, tol=0.001,
+          cache_size=200, class_weight=None, verbose=False, max_iter=-1, decision_function_shape=None, random_state=None)
 clf = RandomForestClassifier(n_estimators=750, n_jobs=-1)
-clf.fit(train_features_df[features], train_labels_df['result'])
+lr = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=1.0, fit_intercept=True, intercept_scaling=1,
+                        class_weight=None, random_state=None, solver='liblinear', max_iter=100, multi_class='ovr',
+                        verbose=0, warm_start=False, n_jobs=1)
+gbc = GradientBoostingClassifier(loss='deviance', learning_rate=0.1, n_estimators=100, subsample=1.0,
+                                 min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0,
+                                 max_depth=3, init=None, random_state=None, max_features=None, verbose=0,
+                                 max_leaf_nodes=None, warm_start=False, presort='auto')
 
-betting_thresh = 1.9
+svm.fit(train_features_df[features], train_labels_df['result'])
+clf.fit(train_features_df[features], train_labels_df['result'])
+lr.fit(train_features_df[features], train_labels_df['result'])
+gbc.fit(train_features_df[features], train_labels_df['result'])
+
+betting_thresh = 1.5
 correct = 0
 total_bets = 0
 balance = 0
+logloss_ensemble = 0
+logloss_rf = 0
+logloss_svm = 0
+logloss_lr = 0
+logloss_gbc = 0
+
+# def rf_boosting(train_features, train_labels, n_estimators=750, n_boosts=3, misclassified_weight=2):
+#     models = []
+#     for boost in n_boosts:
+#         clf = RandomForestClassifier(n_estimators=n_estimators, n_jobs=-1)
+#         clf.fit(train_features_df[features], train_labels_df['result'])
+#         models.append(clf)
+
+
 for i in range(len(test_labels_df)):
     feature_record = test_features_df.iloc[i, :]
     label_record = test_labels_df.iloc[i, :]
-    predictions = clf.predict_proba(feature_record[features].reshape(1, -1))
+
+    predictions_rf = clf.predict_proba(feature_record[features].reshape(1, -1))
+    predictions_svm = svm.predict_proba(feature_record[features].reshape(1, -1))
+    predictions_lr = lr.predict_proba(feature_record[features].reshape(1, -1))
+    predictions_gbc = gbc.predict_proba(feature_record[features].reshape(1, -1))
+    predictions = [[(w + x + y + z) / 4 for w, x, y, z in zip(predictions_rf[0], predictions_svm[0], predictions_lr[0],
+                                                          predictions_gbc[0])]]
+
     # Risk / Profit rating: sqrt(prediction) because prediction is more important indicator than ratings (if you bet on something with a very high rating, but with a very small probability of winning, you probably will loose money)
-    home_rating = predictions[0][0]  * label_record['B365H'] ** 2
-    draw_rating = predictions[0][1]  * label_record['B365D'] ** 2
-    away_rating = predictions[0][2]  * label_record['B365A'] ** 2
+    # home_rating = predictions[0][0]  * label_record['B365H'] ** 2
+    # draw_rating = predictions[0][1]  * label_record['B365D'] ** 2
+    # away_rating = predictions[0][2]  * label_record['B365A'] ** 2
+    home_rating = predictions[0][0]  * label_record['B365H']
+    draw_rating = predictions[0][1]  * label_record['B365D']
+    away_rating = predictions[0][2]  * label_record['B365A']
 
     print('[', feature_record['date'], ']', feature_record['home_team'], 'vs.', feature_record['away_team'], 'RESULT:',
           label_record['home_team_goal'], '-', label_record['away_team_goal'])
@@ -138,6 +174,11 @@ for i in range(len(test_labels_df)):
     print('RATING PRODUCTS:', [home_rating, draw_rating, away_rating])
 
     correct += np.argmax(predictions) == label_record['result']
+    logloss_ensemble += -np.log2(predictions[0][label_record['result']])
+    logloss_rf += -np.log2(predictions_rf[0][label_record['result']])
+    logloss_svm += -np.log2(predictions_svm[0][label_record['result']])
+    logloss_lr += -np.log2(predictions_lr[0][label_record['result']])
+    logloss_gbc += -np.log2(predictions_gbc[0][label_record['result']])
 
     if home_rating >= betting_thresh:
         print('Betting 1 euro on home...')
@@ -168,7 +209,14 @@ for i in range(len(test_labels_df)):
             balance += label_record['B365A']
         else:
             print_color('Lost it', RED)
+
     print_color('Balance: '+str(balance), PURPLE)
     print('-------------------------------------------------------------------------------')
-print(correct, '/', len(test_labels_df), '=', correct/len(test_labels_df))
+
+print('ACCURACY:', correct, '/', len(test_labels_df), '=', correct/len(test_labels_df))
+print('ENSEMBLE LOGLOSS:', logloss_ensemble/len(test_labels_df))
+print('RF LOGLOSS:', logloss_rf/len(test_labels_df))
+print('SVM LOGLOSS:', logloss_svm/len(test_labels_df))
+print('LR LOGLOSS:', logloss_lr/len(test_labels_df))
+print('GBC LOGLOSS:', logloss_gbc/len(test_labels_df))
 print('BETTED:', total_bets, '-- PROFIT:', balance)
